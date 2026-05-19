@@ -21,10 +21,10 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
-        run: |
-          pip install playwright
-          playwright install chromium
+     - name: Install dependencies
+  run: |
+    pip install playwright
+    playwright install --with-deps chromium
 
       - name: Run script
         run: python save_pdf.py
