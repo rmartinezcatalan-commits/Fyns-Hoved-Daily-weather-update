@@ -18,7 +18,7 @@ with sync_playwright() as p:
 
     page = browser.new_page()
 
-    page.goto(url, wait_until="networkidle")
+page.goto(url, wait_until="domcontentloaded", timeout=60000)
 
     page.pdf(
         path=pdf_path,
