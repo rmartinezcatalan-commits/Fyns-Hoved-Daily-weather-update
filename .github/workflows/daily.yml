@@ -7,12 +7,14 @@ on:
 
 jobs:
   generate-pdf:
+
     runs-on: ubuntu-latest
 
     permissions:
       contents: write
 
     steps:
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -21,21 +23,27 @@ jobs:
         with:
           python-version: '3.11'
 
-     - name: Install dependencies
-  run: |
-    pip install playwright
-    playwright install --with-deps chromium
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install playwright
+          playwright install --with-deps chromium
+
+      - name: Create PDF folder
+        run: mkdir -p pdfs
 
       - name: Run script
-        run: python save_pdf.py
+        run: |
+          python save_pdf.py
+          ls -la pdfs
 
-      - name: Commit PDF
+      - name: Commit and push PDF
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "actions@github.com"
 
           git add pdfs/
 
-          git diff --cached --quiet || git commit -m "Add daily PDF"
+          git diff --cached --quiet || git commit -m "Daily Windfinder PDF"
 
           git push
