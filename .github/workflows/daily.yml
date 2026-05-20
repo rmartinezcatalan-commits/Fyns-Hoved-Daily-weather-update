@@ -36,6 +36,7 @@ jobs:
         run: |
           python save_pdf.py
           ls -la pdfs
+
       - name: Commit and push PDF
         run: |
           git config --global user.name "github-actions"
@@ -48,4 +49,3 @@ jobs:
           git pull --rebase origin main
 
           git push origin main
-     
