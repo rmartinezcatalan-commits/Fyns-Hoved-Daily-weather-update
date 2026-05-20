@@ -36,16 +36,16 @@ jobs:
         run: |
           python save_pdf.py
           ls -la pdfs
-
       - name: Commit and push PDF
-  run: |
-    git config --global user.name "github-actions"
-    git config --global user.email "actions@github.com"
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
 
-    git add pdfs/
+          git add pdfs/
 
-    git diff --cached --quiet || git commit -m "Daily Windfinder PDF"
+          git diff --cached --quiet || git commit -m "Daily Windfinder PDF"
 
-    git pull --rebase origin main
+          git pull --rebase origin main
 
-    git push origin main
+          git push origin main
+     
