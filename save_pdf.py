@@ -21,7 +21,7 @@ with sync_playwright() as p:
     )
 
     page = browser.new_page(
-        viewport={"width": 1440, "height": 2200}
+        viewport={"width": 1600, "height": 3000}
     )
 
     # Open page
@@ -31,8 +31,19 @@ with sync_playwright() as p:
         timeout=120000
     )
 
-    # Wait for weather table to appear
+    # WAIT FOR FORECAST TABLE TO LOAD
+    page.wait_for_selector(
+        "text=Wind speed",
+        timeout=120000
+    )
+
+    # Extra rendering time
     page.wait_for_timeout(10000)
+
+    # Scroll slowly to trigger lazy loading
+    page.mouse.wheel(0, 5000)
+
+    page.wait_for_timeout(5000)
 
     # Generate PDF
     page.pdf(
