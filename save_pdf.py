@@ -11,19 +11,40 @@ pdf_path = f"pdfs/{today}.pdf"
 url = "https://www.windfinder.com/forecast/fyn_nordskov"
 
 with sync_playwright() as p:
+
     browser = p.chromium.launch(
         headless=True,
-        args=["--no-sandbox", "--disable-setuid-sandbox"]
+        args=[
+            "--no-sandbox",
+            "--disable-setuid-sandbox"
+        ]
     )
 
-    page = browser.new_page()
+    page = browser.new_page(
+        viewport={"width": 1440, "height": 2200}
+    )
 
-page.goto(url, wait_until="domcontentloaded", timeout=60000)
+    # Open page
+    page.goto(
+        url,
+        wait_until="domcontentloaded",
+        timeout=120000
+    )
 
+    # Wait for weather table to appear
+    page.wait_for_timeout(10000)
+
+    # Generate PDF
     page.pdf(
         path=pdf_path,
         format="A4",
-        print_background=True
+        print_background=True,
+        margin={
+            "top": "10mm",
+            "bottom": "10mm",
+            "left": "10mm",
+            "right": "10mm"
+        }
     )
 
     browser.close()
